@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {useAppDispatch} from "./app/hooks";
+import {addNewTask} from "./app/TaskSlice";
+import {Container, Paper} from "@mui/material";
+import TaskBlock from "./Components/TaskBlock/TaskBlock";
+import TaskForm from "./Components/TaskForm/TaskForm";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const dispatch = useAppDispatch();
+	const [task, setTask] = useState('');
+
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTask(e.target.value);
+	}
+
+	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (task.length > 0) {
+			dispatch(addNewTask(task));
+			setTask('');
+		}
+	}
+
+
+	return (
+		<Container sx={{margin: 'auto'}}>
+			<Paper>
+				<TaskForm state={task} onChange={onChange} onSubmit={onSubmit}/>
+				<TaskBlock/>
+			</Paper>
+		</Container>
+	)
 }
 
 export default App;
