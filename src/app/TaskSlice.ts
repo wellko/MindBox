@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TaskTypes} from "../types";
 import {RootState} from "./store";
-import { randomUUID } from 'crypto';
+import {nanoid} from "nanoid";
+
 
 
 interface tasksState {
@@ -21,7 +22,7 @@ export const tasksSlice = createSlice({
 			const newTask = {
 				taskText: action.payload,
 				done: false,
-				id: randomUUID(),
+				id: nanoid(16),
 			}
 			state.tasks = [...state.tasks, newTask];
 		},
